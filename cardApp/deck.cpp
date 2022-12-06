@@ -16,7 +16,7 @@ Deck::Deck(){
     }
 }
 
-void Deck::destroyCards(){
+Deck::~Deck(){
     vector<Card*>::iterator iterator;
     for(iterator = m_Cards.begin(); iterator != m_Cards.end();++iterator){
         delete *iterator;
@@ -25,19 +25,26 @@ void Deck::destroyCards(){
     m_Cards.clear();
 }
 
-bool Deck::newDeck(){
-    try{
-        destroyCards();
-        for(string suit : m_Suits){
-            for(int i = 0;i < 13;++i){
-                m_Cards.push_back(new Card(suit,i+1));
-            }
-        }
-        return true;
-    }catch(exception) {
-        return false;
+Deck::Deck(const Deck& d){
+    vector<Card*>::iterator iterator;
+    for(int i = 0; i< d.m_Cards.size(); ++i){
+        m_Cards.push_back(new Card(*d.m_Cards[i]));
     }
 }
+
+//bool Deck::newDeck(){
+//    try{
+//        destroyCards();
+//        for(string suit : m_Suits){
+//            for(int i = 0;i < 13;++i){
+//                m_Cards.push_back(new Card(suit,i+1));
+//            }
+//        }
+//        return true;
+//    }catch(exception) {
+//        return false;
+//    }
+//}
 void Deck::shuffleCards(){
     shuffle(m_Cards.begin(),m_Cards.end(),default_random_engine(static_cast<unsigned int>(time(0))));
 }
@@ -50,17 +57,18 @@ string Deck::listCardsInDeck(){
     return result.str();
 }
 vector<Card> Deck::deal(int amount){
-    vector<Card> results;
+    vector<Card> result;
     for(int i = 0; i< amount ; ++i){
-        vector<Card*>::iterator iter;
-        iter = m_Cards.end();
+        Card card = *m_Cards.back();
+        
+       
+        result.push_back(card);
+        delete m_Cards.back();
+        m_Cards.back() = nullptr;
         m_Cards.pop_back();
-        results.push_back(**iter);
-        cout<<(**iter).getValue()<<endl;
-        delete *iter;
-        *iter = nullptr;
+        
     }
-    return results;
+    return result;
 }
 
 int Deck::totalCardsInDeck(){

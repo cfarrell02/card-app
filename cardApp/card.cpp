@@ -12,6 +12,11 @@ Card::Card(string suit, short value):
 {
     
 }
+Card::Card(const Card& c):
+    m_Suit(c.m_Suit), m_Value(c.m_Value)
+{
+    
+}
 
 string Card::getSuit(){
     return m_Suit;

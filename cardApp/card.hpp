@@ -18,6 +18,7 @@ private:
     unsigned short m_Value;
 public:
     Card(string suit = "Hearts", short value = 1);
+    Card(const Card& c);
     string getSuit();
     string getValue();
     
