@@ -51,9 +51,17 @@ string Deck::listCardsInDeck(){
 }
 vector<Card> Deck::deal(int amount){
     vector<Card> results;
-    for(vector<Card*>::iterator iterator = m_Cards->begin(); iterator != m_Cards->end() && amount>0;++iterator){
-        results.push_back(**iterator);
-        --amount;
+    for(int i = 0; i< amount ; ++i){
+        vector<Card*>::iterator iter;
+        iter = m_Cards->end();
+        m_Cards->pop_back();
+        results.push_back(**iter);
+        delete *iter;
+        *iter = nullptr;
     }
     return results;
+}
+
+int Deck::totalCardsInDeck(){
+    return m_Cards->size();
 }
