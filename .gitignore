@@ -7,6 +7,10 @@
 *.o
 *.obj
 
+.DS_Store
+
+/cardApp.xcodeproj
+
 # Precompiled Headers
 *.gch
 *.pch
