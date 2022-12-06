@@ -19,7 +19,7 @@ private:
 public:
     Card(string suit = "Hearts", short value = 1);
     string getSuit();
-    short getValue();
+    string getValue();
     
 };
 

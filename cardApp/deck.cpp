@@ -11,18 +11,18 @@
 Deck::Deck(){
     for(string suit : m_Suits){
         for(int i = 0;i < 13;++i){
-            m_Cards->push_back(new Card(suit,i+1));
+            m_Cards.push_back(new Card(suit,i+1));
         }
     }
 }
 
 void Deck::destroyCards(){
     vector<Card*>::iterator iterator;
-    for(iterator = m_Cards->begin(); iterator != m_Cards->end();++iterator){
+    for(iterator = m_Cards.begin(); iterator != m_Cards.end();++iterator){
         delete *iterator;
         *iterator = nullptr;
     }
-    m_Cards->clear();
+    m_Cards.clear();
 }
 
 bool Deck::newDeck(){
@@ -30,7 +30,7 @@ bool Deck::newDeck(){
         destroyCards();
         for(string suit : m_Suits){
             for(int i = 0;i < 13;++i){
-                m_Cards->push_back(new Card(suit,i+1));
+                m_Cards.push_back(new Card(suit,i+1));
             }
         }
         return true;
@@ -38,14 +38,14 @@ bool Deck::newDeck(){
         return false;
     }
 }
-inline void Deck::shuffleCards(){
-    shuffle(m_Cards->begin(),m_Cards->end(),default_random_engine(static_cast<unsigned int>(time(0))));
+void Deck::shuffleCards(){
+    shuffle(m_Cards.begin(),m_Cards.end(),default_random_engine(static_cast<unsigned int>(time(0))));
 }
 
 string Deck::listCardsInDeck(){
     stringstream result;
-    for(vector<Card*>::iterator iterator = m_Cards->begin(); iterator != m_Cards->end();++iterator){
-        result<<"Suit: "+(*iterator)->getSuit() + " Value: " << (*iterator)->getValue() << "\n";
+    for(vector<Card*>::iterator iterator = m_Cards.begin(); iterator != m_Cards.end();++iterator){
+        result<<(*iterator)->getValue() << " of " << (*iterator)->getSuit()<< '\n';
     }
     return result.str();
 }
@@ -53,9 +53,10 @@ vector<Card> Deck::deal(int amount){
     vector<Card> results;
     for(int i = 0; i< amount ; ++i){
         vector<Card*>::iterator iter;
-        iter = m_Cards->end();
-        m_Cards->pop_back();
+        iter = m_Cards.end();
+        m_Cards.pop_back();
         results.push_back(**iter);
+        cout<<(**iter).getValue()<<endl;
         delete *iter;
         *iter = nullptr;
     }
@@ -63,5 +64,5 @@ vector<Card> Deck::deal(int amount){
 }
 
 int Deck::totalCardsInDeck(){
-    return m_Cards->size();
+    return (int) m_Cards.size();
 }

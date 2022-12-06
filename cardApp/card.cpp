@@ -17,9 +17,24 @@ string Card::getSuit(){
     return m_Suit;
 }
 
-short Card::getValue(){
-    enum values {Ace = 1, Jack = 11, Queen, King};
-    std::cout<<(values)m_Value<<std::endl;
-    return m_Value;
+string Card::getValue(){
+    string result;
+    switch (m_Value) {
+        case 1:
+            result = "Ace";
+            break;
+        case 11:
+            result = "Jack";
+            break;
+        case 12:
+            result = "Queen";
+            break;
+        case 13:
+            result = "King";
+        default:
+            result = std::to_string(m_Value);
+            break;
+    }
+    return result;
 }
 

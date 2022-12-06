@@ -15,7 +15,7 @@
 
 class Deck{
 private:
-    vector<Card*>* m_Cards;
+    vector<Card*> m_Cards;
     string m_Suits[4] = {"Hearts","Diamonds","Spades","Clubs"};
     void destroyCards();
 public:
