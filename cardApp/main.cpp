@@ -8,8 +8,14 @@
 #include <iostream>
 #include "card.hpp"
 #include "deck.hpp"
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 
-void dealCards(Deck* deck), newDeck(Deck* deck);
+void dealCards(Deck* deck);
+void newDeck(Deck* deck);
 int main(int argc, const char * argv[]) {
     cout<<"Welcome to the card app!!"<<endl;
     cout<<"----"<<endl;
@@ -29,10 +35,12 @@ int main(int argc, const char * argv[]) {
                 cout<<"Exiting..."<<endl;
                 return 0;
             case 1:
+                cout<<"----"<<endl;
                 cout<<deck.listCardsInDeck()<<endl;
+                cout<<"----"<<endl;
                 break;
             case 2:
-                deck = Deck();
+                newDeck(&deck);
                 cout<<"A new deck has been acquired";
                 break;
             case 3:
@@ -46,7 +54,7 @@ int main(int argc, const char * argv[]) {
                 cout<<"Invalid Option"<<endl;
                 break;
         }
-        
+        sleep(1);
         
     }
     return 0;
@@ -54,11 +62,22 @@ int main(int argc, const char * argv[]) {
 
 void dealCards(Deck* deck){
     int amount;
-    cout<<"How many cards would you like dealt? ";
+    cout<<"How many cards would you like dealt? \n>";
     cin >> amount;
     cout<<"Dealing cards..."<<endl;
-    vector<Card> results = deck->deal(amount);
-    for(int i = 0 ;i < amount;++i){
-        cout<<results[i].getValue()<<" of "<<results[i].getSuit()<<"\n";
+    try{
+        vector<Card> results = deck->deal(amount);
+        cout<<"----"<<endl;
+        for(int i = 0 ;i < amount;++i){
+            cout<<results[i].getValue()<<" of "<<results[i].getSuit()<<"\n";
+        }
+        cout<<"----"<<endl;
+    }catch(exception e){
+        cerr<<"Invalid Number Inputted"<<endl;
     }
+}
+
+void newDeck(Deck* deck){
+    Deck tempDeck;
+    *deck = tempDeck;
 }

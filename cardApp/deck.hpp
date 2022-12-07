@@ -21,6 +21,7 @@ public:
     Deck();
     Deck(const Deck& d);
     ~Deck();
+    Deck& operator=(const Deck& d);
     void shuffleCards();
     string listCardsInDeck();
     vector<Card> deal(int amount);

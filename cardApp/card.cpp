@@ -36,6 +36,7 @@ string Card::getValue(){
             break;
         case 13:
             result = "King";
+            break;
         default:
             result = std::to_string(m_Value);
             break;

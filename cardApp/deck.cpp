@@ -26,25 +26,23 @@ Deck::~Deck(){
 }
 
 Deck::Deck(const Deck& d){
-    vector<Card*>::iterator iterator;
     for(int i = 0; i< d.m_Cards.size(); ++i){
         m_Cards.push_back(new Card(*d.m_Cards[i]));
     }
 }
 
-//bool Deck::newDeck(){
-//    try{
-//        destroyCards();
-//        for(string suit : m_Suits){
-//            for(int i = 0;i < 13;++i){
-//                m_Cards.push_back(new Card(suit,i+1));
-//            }
-//        }
-//        return true;
-//    }catch(exception) {
-//        return false;
-//    }
-//}
+Deck& Deck::operator=(const Deck& d){
+    if (this != &d) {
+        for(int i = 0; i< m_Cards.size(); ++i){
+            delete m_Cards[i];
+            m_Cards[i] = new Card(*d.m_Cards[i]);
+        }
+        (*m_Suits) = (*d.m_Suits);
+        
+    }
+    return *this;
+}
+
 void Deck::shuffleCards(){
     shuffle(m_Cards.begin(),m_Cards.end(),default_random_engine(static_cast<unsigned int>(time(0))));
 }
@@ -57,6 +55,7 @@ string Deck::listCardsInDeck(){
     return result.str();
 }
 vector<Card> Deck::deal(int amount){
+    if(amount > m_Cards.size()) throw exception();
     vector<Card> result;
     for(int i = 0; i< amount ; ++i){
         Card card = *m_Cards.back();
