@@ -60,15 +60,15 @@ vector<Card> Deck::deal(int amount){
     for(int i = 0; i< amount ; ++i){
         Card card = *m_Cards.back();
         
-       
         result.push_back(card);
-        delete m_Cards.back();
-        m_Cards.back() = nullptr;
-        m_Cards.pop_back();
         
+        // Delete the Card object and remove it from the m_Cards vector
+        delete m_Cards.back();
+        m_Cards.pop_back();
     }
     return result;
 }
+
 
 int Deck::totalCardsInDeck(){
     return (int) m_Cards.size();

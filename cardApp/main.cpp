@@ -15,11 +15,12 @@
 #endif
 
 void dealCards(Deck* deck);
-void newDeck(Deck* deck);
+void newDeck(Deck*& deck);
 int main(int argc, const char * argv[]) {
     cout<<"Welcome to the card app!!"<<endl;
     cout<<"----"<<endl;
-    Deck deck;
+    Deck* deck = nullptr;
+    newDeck(deck);
     while (true) {
         int choice;
         cout<<"What would you like to do..."<<endl;
@@ -33,22 +34,24 @@ int main(int argc, const char * argv[]) {
         switch (choice) {
             case 0:
                 cout<<"Exiting..."<<endl;
+                delete deck;
+                deck = nullptr;
                 return 0;
             case 1:
                 cout<<"----"<<endl;
-                cout<<deck.listCardsInDeck()<<endl;
+                cout<<deck->listCardsInDeck()<<endl;
                 cout<<"----"<<endl;
                 break;
             case 2:
-                newDeck(&deck);
+                newDeck(deck);
                 cout<<"A new deck has been acquired";
                 break;
             case 3:
-                deck.shuffleCards();
+                deck->shuffleCards();
                 cout<<"The deck has been shuffled";
                 break;
             case 4:
-                dealCards(&deck);
+                dealCards(deck);
                 break;
             default:
                 cout<<"Invalid Option"<<endl;
@@ -57,6 +60,8 @@ int main(int argc, const char * argv[]) {
         sleep(1);
         
     }
+    delete deck;
+    deck = nullptr;
     return 0;
 }
 
@@ -77,7 +82,12 @@ void dealCards(Deck* deck){
     }
 }
 
-void newDeck(Deck* deck){
-    Deck tempDeck;
-    *deck = tempDeck;
+void newDeck(Deck*& deck)
+{
+    // Delete the old Deck object to prevent a memory leak
+    delete deck;
+
+    // Create a new Deck object
+    deck = new Deck();
 }
+
